@@ -22,6 +22,7 @@ jobs:
           root: .
           paths:
             - ./image.tar
+  publish-latest:
     executor: docker-publisher
     steps:
       - attach_workspace:
@@ -29,11 +30,12 @@ jobs:
       - setup_remote_docker
       - run:
           name: Load archived Docker image
-          command: |
-             docker load -i /tmp/workspace/image.tar
+          command: docker load -i /tmp/workspace/image.tar
+    working_directory: /tmp/workspace
+steps:
       - run:
-          name: Build Docker image
-          command: |     
+          name: Creating Artifacts
+          command: |
             echo "divya@2662" | docker login -u "divyamoilla" --password-stdin
             cp image.tar > /tmp/artifact-1;
       - store_artifacts:
