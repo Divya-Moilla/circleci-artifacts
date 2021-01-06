@@ -10,7 +10,6 @@ jobs:
     steps:
       - checkout
       - run: |
-          make
           # tell the operating system to remove the file size limit on core dump files 
           ulimit -c unlimited
           ./dump
