@@ -1,4 +1,10 @@
 version: 2
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: divyamoilla/hello
+    docker:
+      - image: circleci/buildpack-deps:stretch
 jobs:
   build:
     docker:
