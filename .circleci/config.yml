@@ -12,6 +12,7 @@ jobs:
       - run:
           command: |
             make
+            mkdir -p /tmp/core_dumps
             make install
       - run: |
           # tell the operating system to remove the file size limit on core dump files 
