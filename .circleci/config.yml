@@ -1,24 +1,43 @@
-version: 2
+version: 2.1
 executors:
   docker-publisher:
     environment:
-      IMAGE_NAME: divyamoilla/hello
+      IMAGE_NAME: divyamoilla/Divya
     docker:
       - image: circleci/buildpack-deps:stretch
 jobs:
   build:
-    docker:
-      - image: divyamoilla/hello:latest
-        auth:
-          username: divyamoilla
-          password: divya@2662  # context / project UI env-var reference
-
-    working_directory: /tmp
+    executor: docker-publisher
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t divyamoilla/Divya:latest .
+      - run:
+          name: Archive Docker image
+          command: docker save -o image.tar divyamoilla/Divya
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./image.tar
+  publish-latest:
+    executor: docker-publisher
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - setup_remote_docker
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/image.tar
+	working_directory: /tmp
     steps:
       - run:
           name: Creating Artifacts
           command: |
-            docker pull divyamoilla/hello:latest > /tmp/artifact-1;
+            echo "divya@2662" | docker login -u "divyamoilla" --password-stdin
+			copy divyamoilla/Divya:latest > /tmp/artifact-1;
       - store_artifacts:
           path: /tmp/artifact-1
           destination: artifact-file
