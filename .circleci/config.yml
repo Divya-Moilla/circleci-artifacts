@@ -4,15 +4,15 @@ jobs:
     docker:
       - image: gcc:8.1.0
         auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+          username: divyamoilla
+          password: divya@2662  # context / project UI env-var reference
     working_directory: ~/work
     steps:
       - checkout
       - run:
+          name: Creating Dummy Artifacts
           command: |
             mkdir -p /tmp/core_dumps
             cp core.* /tmp/core_dumps
-          when: on_fail
       - store_artifacts:
           path: /tmp/core_dumps
