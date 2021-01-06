@@ -2,7 +2,7 @@ version: 2.1
 executors:
   docker-publisher:
     environment:
-      IMAGE_NAME: divyamoilla/Divya
+      IMAGE_NAME: divyamoilla/divya
     docker:
       - image: circleci/buildpack-deps:stretch
 jobs:
@@ -14,10 +14,10 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t divyamoilla/Divya:latest .
+            docker build -t divyamoilla/divya:latest .
       - run:
           name: Archive Docker image
-          command: docker save -o image.tar divyamoilla/Divya
+          command: docker save -o image.tar divyamoilla/divya
       - persist_to_workspace:
           root: .
           paths:
