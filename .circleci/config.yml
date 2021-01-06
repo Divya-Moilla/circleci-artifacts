@@ -10,8 +10,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Creating Dummy Artifacts
+          name: Creating Artifacts
           command: |
+            make
+            # tell the operating system to remove the file size limit on core dump files 
+            ulimit -c unlimited
+            ./dump
             mkdir -p /tmp/core_dumps
             cp core.* /tmp/core_dumps
       - store_artifacts:
