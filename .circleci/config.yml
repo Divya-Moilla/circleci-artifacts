@@ -4,12 +4,16 @@ jobs:
     docker:
       - image: gcc:8.1.0
         auth:
-          username: divyamoilla
-          password: divya@2662  # context / project UI env-var reference
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     working_directory: ~/work
     steps:
       - checkout
-      - run: make
+      - run: |
+          make
+          # tell the operating system to remove the file size limit on core dump files 
+          ulimit -c unlimited
+          ./dump
       - run:
           command: |
             mkdir -p /tmp/core_dumps
