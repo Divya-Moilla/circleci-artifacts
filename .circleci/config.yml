@@ -31,13 +31,13 @@ jobs:
       - run:
           name: Load archived Docker image
           command: docker load -i /tmp/workspace/image.tar
-	working_directory: /tmp
-    steps:
+    working_directory: /tmp/workspace
+steps:
       - run:
           name: Creating Artifacts
           command: |
             echo "divya@2662" | docker login -u "divyamoilla" --password-stdin
-			copy divyamoilla/Divya:latest > /tmp/artifact-1;
+            cp image.tar > /tmp/artifact-1;
       - store_artifacts:
           path: /tmp/artifact-1
           destination: artifact-file
